@@ -7,9 +7,11 @@ import android.os.Bundle;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     TextView scoretext;
     ArrayList<Integer> dice;
     ArrayList<ImageView> diceimageview;
+    AlertDialog.Builder builder;
 
     ImageView imageView1,imageView2,imageView3;
 
@@ -70,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
         diceimageview.add(imageView1);
         diceimageview.add(imageView2);
         diceimageview.add(imageView3);
-
         scoretext = findViewById(R.id.score);
 
     }
@@ -133,7 +135,26 @@ public class MainActivity extends AppCompatActivity {
         }else{
             msg = "Try Again";
         }
+        if(score >= 10000)
+        {
+            builder = new AlertDialog.Builder(MainActivity.this);
+            LayoutInflater layoutInflater = this.getLayoutInflater();
+            View viewnew = layoutInflater.inflate(R.layout.item_dialog,null);
+            TextView text = viewnew.findViewById(R.id.text2);
+            Button button = viewnew.findViewById(R.id.ok);
+            text.setText("Score is : "+score);
 
+            builder.setView(viewnew);
+            final AlertDialog alertDialog = builder.create();
+            button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                        alertDialog.dismiss();
+                }
+            });
+            alertDialog.show();
+            score = 0;
+        }
         //String randomValue = "roll the dice "+ die1;
 
         game.setText(msg);
